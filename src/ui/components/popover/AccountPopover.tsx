@@ -1,5 +1,5 @@
-import { MouseEvent, useState } from 'react';
-
+'use client';
+import { MouseEvent, useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
@@ -9,6 +9,8 @@ import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import { account } from '@/lib/_mock/account';
+import { logout } from '@/lib/actions/logout';
+import { auth } from '@/lib/auth';
 
 // ----------------------------------------------------------------------
 
@@ -35,6 +37,14 @@ const AccountPopover = () => {
   const open = Boolean(anchorEl);
   const id = open ? 'account-popover' : undefined;
 
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    auth().then((data) => {
+      setUser(data?.user);
+    });
+  }, []);
+
   return (
     <>
       <IconButton
@@ -50,15 +60,15 @@ const AccountPopover = () => {
         }}
       >
         <Avatar
-          src={account.photoURL}
-          alt={account.displayName}
+          src={user?.image}
+          alt={user?.name}
           sx={{
             width: 36,
             height: 36,
             border: (theme) => `solid 2px ${theme.palette.background.default}`,
           }}
         >
-          {account.displayName.charAt(0).toUpperCase()}
+          {user?.name.charAt(0).toUpperCase()}
         </Avatar>
       </IconButton>
 
@@ -82,10 +92,7 @@ const AccountPopover = () => {
       >
         <Box sx={{ my: 1.5, px: 2 }}>
           <Typography variant="subtitle2" noWrap>
-            {account.displayName}
-          </Typography>
-          <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+            {user?.name}
           </Typography>
         </Box>
 
@@ -99,14 +106,22 @@ const AccountPopover = () => {
 
         <Divider sx={{ borderStyle: 'dashed', m: 0 }} />
 
-        <MenuItem
-          disableRipple
-          disableTouchRipple
-          onClick={handleClose}
-          sx={{ typography: 'body2', color: 'error.main', py: 1.5 }}
-        >
-          Logout
-        </MenuItem>
+        <Box component="form" action={logout}>
+          <MenuItem
+            component="button"
+            type="submit"
+            disableRipple
+            disableTouchRipple
+            sx={{
+              typography: 'body2',
+              color: 'error.main',
+              py: 1.5,
+              width: '100%',
+            }}
+          >
+            Logout
+          </MenuItem>
+        </Box>
       </Popover>
     </>
   );

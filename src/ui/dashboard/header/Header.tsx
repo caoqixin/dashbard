@@ -16,24 +16,6 @@ export default function Header({ onOpenNav }: { onOpenNav: () => void }) {
 
   const lgUp = useResponsive('up', 'lg');
 
-  const renderContent = (
-    <>
-      {!lgUp && (
-        <IconButton onClick={onOpenNav} sx={{ mr: 1 }}>
-          <MenuIcon />
-        </IconButton>
-      )}
-
-      <Search />
-
-      <Box sx={{ flexGrow: 1 }} />
-
-      <Stack direction="row" alignItems="center" spacing={1}>
-        <AccountPopover />
-      </Stack>
-    </>
-  );
-
   return (
     <AppBar
       sx={{
@@ -58,7 +40,19 @@ export default function Header({ onOpenNav }: { onOpenNav: () => void }) {
           px: { lg: 5 },
         }}
       >
-        {renderContent}
+        {!lgUp && (
+          <IconButton onClick={onOpenNav} sx={{ mr: 1 }}>
+            <MenuIcon />
+          </IconButton>
+        )}
+
+        <Search />
+
+        <Box sx={{ flexGrow: 1 }} />
+
+        <Stack direction="row" alignItems="center" spacing={1}>
+          <AccountPopover />
+        </Stack>
       </Toolbar>
     </AppBar>
   );

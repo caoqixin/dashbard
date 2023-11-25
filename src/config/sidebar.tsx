@@ -9,6 +9,7 @@ import CategoryIcon from '@mui/icons-material/Category';
 import HandymanIcon from '@mui/icons-material/Handyman';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import ExtensionIcon from '@mui/icons-material/Extension';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import React from 'react';
 
 export type MenuItem = {
@@ -84,5 +85,11 @@ export const menuItems: MenuItem[] = [
     title: '供应商管理',
     path: '/dashboard/supplier',
     icon: <PersonIcon />,
+  },
+  {
+    id: 12,
+    title: '管理员',
+    path: '/dashboard/admin',
+    icon: <AdminPanelSettingsIcon />,
   },
 ];
