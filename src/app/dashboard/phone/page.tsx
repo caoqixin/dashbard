@@ -1,3 +1,5 @@
+import PhonePage from '@/ui/dashboard/views/phone/PhonePage';
+
 export default function Page() {
-  return <h1>Phone</h1>;
+  return <PhonePage />;
 }

@@ -1,3 +1,5 @@
+import SupplierPage from '@/ui/dashboard/views/supplier/SupplierPage';
+
 export default function Page() {
-  return <h1>Supplier</h1>;
+  return <SupplierPage />;
 }

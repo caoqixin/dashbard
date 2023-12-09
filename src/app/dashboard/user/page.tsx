@@ -1,3 +1,5 @@
+import UserPage from '@/ui/dashboard/views/user/UserPage';
+
 export default function Page() {
-  return <h1>User</h1>;
+  return <UserPage />;
 }

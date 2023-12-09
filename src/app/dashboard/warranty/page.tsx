@@ -1,3 +1,5 @@
+import WarrantyPage from '@/ui/dashboard/views/warranty/WarrantyPage';
+
 export default function Page() {
-  return <h1>Warranty</h1>;
+  return <WarrantyPage />;
 }

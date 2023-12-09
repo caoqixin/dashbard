@@ -1,3 +1,5 @@
+import AdminPage from '@/ui/dashboard/views/admin/AdminPage';
+
 export default function Page() {
-  return <h1>Admin</h1>;
+  return <AdminPage />;
 }

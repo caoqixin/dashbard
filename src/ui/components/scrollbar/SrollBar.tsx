@@ -28,7 +28,7 @@ export const StyledScrollbar = styled(SimpleBar)(({ theme }) => ({
 
 const Scrollbar = forwardRef(
   (
-    { children, sx, ...other }: { children: React.ReactNode; sx: SxProps },
+    { children, sx, ...other }: { children: React.ReactNode; sx?: SxProps },
     ref
   ) => {
     const userAgent =

@@ -1,3 +1,5 @@
+import CategoryPage from '@/ui/dashboard/views/category/CategoryPage';
+
 export default function Page() {
-  return <h1>Category</h1>;
+  return <CategoryPage />;
 }

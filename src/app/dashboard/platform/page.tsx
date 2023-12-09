@@ -1,3 +1,5 @@
+import PlatformPage from '@/ui/dashboard/views/platform/PlatformPage';
+
 export default function Page() {
-  return <h1>platform</h1>;
+  return <PlatformPage />;
 }

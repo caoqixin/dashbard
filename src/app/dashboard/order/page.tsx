@@ -1,3 +1,5 @@
+import OrderPage from '@/ui/dashboard/views/order/OrderPage';
+
 export default function Page() {
-  return <h1>Order</h1>;
+  return <OrderPage />;
 }
