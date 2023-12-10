@@ -1,6 +1,6 @@
 'use client';
 import { ChangeEvent, MouseEvent, useState } from 'react';
-import { categoriesRoot } from '@/lib/_mock/categories';
+import { categories, categoriesRoot } from '@/lib/_mock/categories';
 import TableNoData from '@/ui/components/table/tableNoData';
 import TableRow from '@/ui/components/table/tableRow';
 import TableHead from '@/ui/components/table/tableHead';
@@ -13,9 +13,10 @@ import {
 } from '@/ui/components/table/utils';
 import Table from '@/ui/components/table/Table';
 import { Stack, TableCell, Typography, TableBody } from '@mui/material';
-import NavLink from '@/ui/components/navlink/NavLink';
 
-export default function CategoryPage() {
+export default function Page({ params }: { params: { id: number } }) {
+  const parent = categoriesRoot.find((value, _) => value.id == params.id);
+
   const [order, setOrder] = useState<'asc' | 'desc'>('asc');
   const [orderBy, setOrderBy] = useState<string>('id');
   const [filterName, setFilterName] = useState('');
@@ -24,8 +25,10 @@ export default function CategoryPage() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
+  const data = categories.filter((value, _) => value.type_id == params.id);
+
   const dataFiltered = applyFilter({
-    inputData: categoriesRoot,
+    inputData: data,
     comparator: getComparator(order, orderBy),
     filterName,
   });
@@ -61,7 +64,7 @@ export default function CategoryPage() {
   const handleSelectAllClick = (event: ChangeEvent<HTMLElement>) => {
     const target = event.target as HTMLInputElement;
     if (target.checked) {
-      const newSelecteds = categoriesRoot.map((n) => n.name);
+      const newSelecteds = data.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -90,9 +93,10 @@ export default function CategoryPage() {
 
   return (
     <Table
-      title="分类管理"
+      title={`分类管理 - ${parent?.name}`}
       addTitle="添加分类"
-      data={categoriesRoot}
+      data={data}
+      back="/dashboard/category"
       selectedData={selected}
       filterName={filterName}
       page={page}
@@ -104,7 +108,7 @@ export default function CategoryPage() {
       <TableHead
         order={order}
         orderBy={orderBy}
-        rowCount={categoriesRoot.length}
+        rowCount={data.length}
         numSelected={selected.length}
         onRequestSort={handleSort}
         onSelectAllClick={handleSelectAllClick}
@@ -124,16 +128,7 @@ export default function CategoryPage() {
               <TableCell scope="row">
                 <Stack direction="row" alignItems="center" spacing={2}>
                   <Typography variant="subtitle2" noWrap>
-                    <NavLink
-                      href={`/dashboard/category/${row.id}`}
-                      sx={{
-                        color: 'inherit',
-                        fontSize: '20px',
-                        textDecoration: 'none',
-                      }}
-                    >
-                      {row.name}
-                    </NavLink>
+                    {row.name}
                   </Typography>
                 </Stack>
               </TableCell>
@@ -142,7 +137,7 @@ export default function CategoryPage() {
 
         <TableEmptyRows
           height={77}
-          emptyRows={emptyRows(page, rowsPerPage, categoriesRoot.length)}
+          emptyRows={emptyRows(page, rowsPerPage, data.length)}
         />
 
         {notFound && <TableNoData query={filterName} />}

@@ -1,38 +1,26 @@
 'use client';
-import { ChangeEvent, MouseEvent, useState } from 'react';
-import Stack from '@mui/material/Stack';
-import Avatar from '@mui/material/Avatar';
-import Popover from '@mui/material/Popover';
-import MuiTableRow from '@mui/material/TableRow';
+import { ChangeEvent, MouseEvent, ReactNode, useState } from 'react';
 import Checkbox from '@mui/material/Checkbox';
-import MenuItem from '@mui/material/MenuItem';
-import TableCell from '@mui/material/TableCell';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Label from '../label/label';
+import {
+  TableCell,
+  Popover,
+  TableRow as MuiTableRow,
+  MenuItem,
+  IconButton,
+} from '@mui/material';
 
 interface TableRowProps {
   selected: boolean;
-  name: string;
-  avatarUrl: string;
-  company: string;
-  role: string;
-  isVerified: boolean;
-  status: string;
+  children: ReactNode;
   handleClick: (event: ChangeEvent<HTMLElement>) => void;
 }
 
 export default function TableRow({
   selected,
-  name,
-  avatarUrl,
-  company,
-  role,
-  isVerified,
-  status,
+  children,
   handleClick,
 }: TableRowProps) {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -55,26 +43,7 @@ export default function TableRow({
           <Checkbox disableRipple checked={selected} onChange={handleClick} />
         </TableCell>
 
-        <TableCell component="th" scope="row" padding="none">
-          <Stack direction="row" alignItems="center" spacing={2}>
-            <Avatar alt={name} src={avatarUrl} />
-            <Typography variant="subtitle2" noWrap>
-              {name}
-            </Typography>
-          </Stack>
-        </TableCell>
-
-        <TableCell>{company}</TableCell>
-
-        <TableCell>{role}</TableCell>
-
-        <TableCell align="center">{isVerified ? 'Yes' : 'No'}</TableCell>
-
-        <TableCell>
-          <Label color={(status === 'banned' && 'error') || 'success'}>
-            {status}
-          </Label>
-        </TableCell>
+        {children}
 
         <TableCell align="right">
           <IconButton onClick={handleOpenMenu}>

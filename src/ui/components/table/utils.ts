@@ -1,3 +1,5 @@
+import { CategoryType } from '@/lib/definitions';
+
 export const visuallyHidden = {
   border: 0,
   margin: -1,
@@ -20,6 +22,8 @@ interface DemoProps {
   status: string;
 }
 
+type InputDataProps = DemoProps | CategoryType;
+export type CategoryOrderByProp = 'id' | 'name';
 export type OrderProp =
   | 'avatarUrl'
   | 'company'
@@ -29,7 +33,9 @@ export type OrderProp =
   | 'role'
   | 'status';
 
-type stabilizedThisProp = [DemoProps, number];
+export type OrderByProps = OrderProp | CategoryOrderByProp;
+
+type stabilizedThisProp = [InputDataProps, number];
 
 export function emptyRows(
   page: number,
@@ -40,9 +46,9 @@ export function emptyRows(
 }
 
 function descendingComparator(
-  a: DemoProps,
-  b: DemoProps,
-  orderBy: OrderProp
+  a: InputDataProps,
+  b: InputDataProps,
+  orderBy: any
 ): number {
   if (a[orderBy] === null) {
     return 1;
@@ -58,10 +64,13 @@ function descendingComparator(
   }
   return 0;
 }
-export function getComparator(order: string, orderBy: OrderProp) {
+
+export function getComparator(order: string, orderBy: string) {
   return order === 'desc'
-    ? (a: DemoProps, b: DemoProps) => descendingComparator(a, b, orderBy)
-    : (a: DemoProps, b: DemoProps) => -descendingComparator(a, b, orderBy);
+    ? (a: InputDataProps, b: InputDataProps) =>
+        descendingComparator(a, b, orderBy)
+    : (a: InputDataProps, b: InputDataProps) =>
+        -descendingComparator(a, b, orderBy);
 }
 
 export function applyFilter({
@@ -69,12 +78,12 @@ export function applyFilter({
   comparator,
   filterName,
 }: {
-  inputData: DemoProps[];
-  comparator: (a: DemoProps, b: DemoProps) => number;
+  inputData: InputDataProps[];
+  comparator: (a: InputDataProps, b: InputDataProps) => number;
   filterName: string;
 }) {
   const stabilizedThis: stabilizedThisProp[] = inputData.map(
-    (el: DemoProps, index: number): stabilizedThisProp => [el, index]
+    (el: InputDataProps, index: number): stabilizedThisProp => [el, index]
   );
 
   stabilizedThis.sort(
